@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,12 +33,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput("LoginFile", MODE_PRIVATE)))) {
-                    writer.write("Login");
+                    writer.write(login.getText().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput("PasswordFile", MODE_PRIVATE)))) {
-                    writer.write("Password");
+                    writer.write(password.getText().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -46,48 +47,33 @@ public class MainActivity extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BufferedReader reader = null;
-                try {
-                    reader = new BufferedReader(new InputStreamReader(openFileInput("LoginFile")));
-                    StringBuilder sb = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("LoginFile")))) {
                     String line = reader.readLine();
-                    while (line != null) {
-                        sb.append(line);
-                        line = reader.readLine();
+
+                    String loginText = login.getText().toString();
+
+                    if (!loginText.equals(line)) {
+                        Toast.makeText(MainActivity.this,"Пользователь не найден!" , Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                    return;
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    Toast.makeText(MainActivity.this, "Пользователь не найден!", Toast.LENGTH_SHORT).show();
                 }
-                try {
-                    reader = new BufferedReader(new InputStreamReader(openFileInput("PasswordFile")));
-                    StringBuilder sb = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("PasswordFile")))) {
                     String line = reader.readLine();
-                    while (line != null) {
-                        sb.append(line);
-                        line = reader.readLine();
+
+                    String passwordText = password.getText().toString();
+
+                    if (!passwordText.equals(line)) {
+                        Toast.makeText(MainActivity.this, "Пароль введён неверно!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Всё ок!", Toast.LENGTH_SHORT).show();
                     }
-                    return;
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
             }
         });
     }
 }
+

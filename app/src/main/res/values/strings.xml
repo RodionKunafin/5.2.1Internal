@@ -2,4 +2,6 @@
     <string name="app_name">5.2.1Internal</string>
     <string name="btnOk">OK</string>
     <string name="btnRegistration">REGISTRATION</string>
+    <string name="toast">Пользователь не найден</string>
+
 </resources>
