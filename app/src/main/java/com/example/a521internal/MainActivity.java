@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
                     String loginText = login.getText().toString();
 
                     if (!loginText.equals(line)) {
-                        Toast.makeText(MainActivity.this,"Пользователь не найден!" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,R.string.tos, Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (IOException e) {
-                    Toast.makeText(MainActivity.this, "Пользователь не найден!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.tos, Toast.LENGTH_SHORT).show();
                 }
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("PasswordFile")))) {
                     String line = reader.readLine();
@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
                     String passwordText = password.getText().toString();
 
                     if (!passwordText.equals(line)) {
-                        Toast.makeText(MainActivity.this, "Пароль введён неверно!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.tos1, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "Всё ок!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.tos2, Toast.LENGTH_SHORT).show();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
